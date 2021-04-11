@@ -3,19 +3,15 @@
 AZDelivery ESP32 moisture sensor for open API integration.
 
 # WiFi credentials
-You need to create `env.h` in **"main"** folder. Here you can add your WiFi credentials.
-```env.h
-#include <Arduino.h>
+You need to create `env.cpp` in **"main"** folder. Here you can add your WiFi credentials.
+Your compiler might give you warnings about strig constat conversion. 
 
-#ifndef ENV_H
-#define ENV_H
+```env.cpp
+#include "env.h"
 
-namespace ENV {
-    const String SSID = "mywifi";
-    const String WiFiPwd = "password";
-}
-
-#endif
+String ENV::ENVars::API = "http://192.168.178.34/yepp";
+char* ENV::ENVars::SSID = "YOUR SSID";
+char* ENV::ENVars::WiFiPwd = "YOUR WiFi PASSWORD";
 ```
 
 
