@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <WiFi.h>
+#include <WebServer.h>
 #include "env.h"
 #include "flowerData.h"
 
@@ -13,12 +14,24 @@ using namespace ENV;
 #define IS_DRY 4090
 #define READ_INTERVAL 5000
 #define POST_INTERVAL 360
+#define SENSOR_01_NAME "Flower-Champ-Ficus"
+#define SENSOR_02_NAME "Flower-Champ-Palme"
 
 
 int moisture_01 = 0;
 int moisture_02 = 0;
 unsigned int updates = 0;
+WebServer server(80);
 
+
+// REST endpoint for requesting current Sensor data
+void OnDataRequested() {
+
+    FLC::FlowerData data_01(SENSOR_01_NAME, moisture_01);
+    FLC::FlowerData data_02(SENSOR_02_NAME, moisture_02);
+    String response = "[" + data_01.ToJson() + "," + data_02.ToJson() + "]";
+    server.send(200, "application/json", response);
+}
 
 
 void setup() {
@@ -41,10 +54,15 @@ void setup() {
 
     Serial.println("Connected to network. IPv4:");
     Serial.println(WiFi.localIP());
+
+    // Basic json web api
+    server.on("/", OnDataRequested);
+    server.begin();
 }
 
 
 void loop() {   
+    server.handleClient();
     delay(READ_INTERVAL);
 
     moisture_01 = analogRead(SENSOR_01);
@@ -59,8 +77,8 @@ void loop() {
         updates = 0;
 
         if (WiFi.status() == WL_CONNECTED) {
-            FLC::FlowerData data_01("Flower-Champ-Ficus", moisture_01);
-            FLC::FlowerData data_02("Flower-Champ-Palme", moisture_02);
+            FLC::FlowerData data_01(SENSOR_01_NAME, moisture_01);
+            FLC::FlowerData data_02(SENSOR_02_NAME, moisture_02);
 
             data_01.Post();
             data_02.Post();
