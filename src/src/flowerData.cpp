@@ -8,8 +8,11 @@ FlowerData::FlowerData() { }
 
 
 FlowerData::FlowerData(String sensor_name, int sensor_data) {
+
     this->_sensor_name = sensor_name;
-    this->_sensor_value = sensor_data;
+
+    if (sensor_data >= 2330) this->_sensor_value = String(((int)ceil((MAX_DRY - sensor_data) * 0.056f)));
+    else this->_sensor_value = "0";
 }
 
 
