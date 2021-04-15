@@ -1,10 +1,13 @@
 #include <Arduino.h>
 #include <HTTPClient.h>
 #include "env.h"
+#include "math.h"
 
 
 #ifndef FLOWERDATA
 #define FLOWERDATA
+#define MAX_DRY 4095
+#define MAX_WET 2330
 
 namespace FLC {
 

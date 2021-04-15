@@ -1,18 +1,18 @@
 #include <Arduino.h>
 #include <WiFi.h>
-#include <WebServer.h>
+#include <ESPAsyncWebServer.h>
 #include "env.h"
 #include "flowerData.h"
+
 
 using namespace ENV;
 
 
 #define SENSOR_01 33
 #define SENSOR_02 32
-#define MAX_DRY 4095
-#define MAX_WET 2330
-#define IS_DRY 4090
-#define READ_INTERVAL 5000
+
+
+#define READ_INTERVAL 10000
 #define POST_INTERVAL 360
 #define SENSOR_01_NAME "Flower-Champ-Ficus"
 #define SENSOR_02_NAME "Flower-Champ-Palme"
@@ -21,16 +21,20 @@ using namespace ENV;
 int moisture_01 = 0;
 int moisture_02 = 0;
 unsigned int updates = 0;
-WebServer server(80);
+AsyncWebServer server(80);
 
 
 // REST endpoint for requesting current Sensor data
-void OnDataRequested() {
+void OnDataRequested(AsyncWebServerRequest *request) {
 
     FLC::FlowerData data_01(SENSOR_01_NAME, moisture_01);
     FLC::FlowerData data_02(SENSOR_02_NAME, moisture_02);
     String response = "[" + data_01.ToJson() + "," + data_02.ToJson() + "]";
-    server.send(200, "application/json", response);
+    request->send(200, "application/json", response);
+}
+
+void OnNotFound(AsyncWebServerRequest *request) {
+    request-> send(404, "appliction/json", "Not found");
 }
 
 
@@ -56,13 +60,13 @@ void setup() {
     Serial.println(WiFi.localIP());
 
     // Basic json web api
-    server.on("/", OnDataRequested);
+    server.on("/", HTTP_GET, OnDataRequested);
+    server.onNotFound(OnNotFound);
     server.begin();
 }
 
 
 void loop() {   
-    server.handleClient();
     delay(READ_INTERVAL);
 
     moisture_01 = analogRead(SENSOR_01);
@@ -73,7 +77,7 @@ void loop() {
         updates++;
     }
     else {
-        // Send data every 30 mins.
+        // Send data every 60 mins.
         updates = 0;
 
         if (WiFi.status() == WL_CONNECTED) {
