@@ -14,8 +14,8 @@ using namespace ENV;
 
 #define READ_INTERVAL 10000
 #define POST_INTERVAL 360
-#define SENSOR_01_NAME "Flower-Champ-Ficus"
-#define SENSOR_02_NAME "Flower-Champ-Palme"
+#define SENSOR_01_NAME "Schlafzimmer-Ficus"
+#define SENSOR_02_NAME "Schlafzimmer-Palme"
 
 
 int moisture_01 = 0;
