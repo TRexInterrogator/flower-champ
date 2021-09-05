@@ -10,18 +10,24 @@ FlowerData::FlowerData() { }
 FlowerData::FlowerData(String sensor_name, int sensor_data) {
 
     this->_sensor_name = sensor_name;
+    this->_raw_value = sensor_data;
 
-    if (sensor_data >= 2330) this->_sensor_value = String(((int)ceil((MAX_DRY - sensor_data) * 0.056f)));
+    if (sensor_data >= MAX_WET) {
+        float calc_sensor = (100.0f / (float)(MAX_DRY - MAX_WET)) * (float)(MAX_DRY - sensor_data);
+        this->_sensor_value = String(calc_sensor);
+    }
     else this->_sensor_value = "0";
+
+    Serial.println("Sensor: " + this->_sensor_name + " - " + this->_sensor_value);
 }
 
 
 String FlowerData::ToJson() {
     String json = R"===(
         {
-            "id": null,
             "sensor_id": "@sensor_id",
             "sensor_value": @sensor_value,
+            "raw_value": @raw_value,
             "date_time": null,
             "date_date": null
         }
@@ -29,6 +35,7 @@ String FlowerData::ToJson() {
 
     json.replace("@sensor_id", this->_sensor_name);
     json.replace("@sensor_value", String(this->_sensor_value));
+    json.replace("@raw_value", String(this->_raw_value));
 
     return json;
 }
@@ -36,10 +43,9 @@ String FlowerData::ToJson() {
 
 void FlowerData::Post() {
     HTTPClient http;
-    String url = ENVars::API + String("/flowerData/new");
+    String url = ENVars::WEBHOOK + "/?accessoryId=" + this->_sensor_name + "&value=" + this->_sensor_value;
 
     http.begin(url);
-    http.addHeader("Content-Type", "application/json");
-    http.POST(this->ToJson());
+    http.GET();
     http.end();
 }

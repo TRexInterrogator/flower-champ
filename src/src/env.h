@@ -9,7 +9,7 @@ namespace ENV {
         public:
             static char* SSID;
             static char* WiFiPwd;
-            static String API;
+            static String WEBHOOK;
     };
 }
 

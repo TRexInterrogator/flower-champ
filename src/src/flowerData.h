@@ -7,7 +7,7 @@
 #ifndef FLOWERDATA
 #define FLOWERDATA
 #define MAX_DRY 4095
-#define MAX_WET 2330
+#define MAX_WET 1700
 
 namespace FLC {
 
@@ -15,6 +15,7 @@ namespace FLC {
         private:
             String _sensor_name;
             String _sensor_value;
+            int _raw_value;
 
         public:
             FlowerData();
