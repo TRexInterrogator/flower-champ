@@ -10,6 +10,7 @@ namespace ENV {
             static char* SSID;
             static char* WiFiPwd;
             static String WEBHOOK;
+            static float TEMP_OFFSET;
     };
 }
 

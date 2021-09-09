@@ -12,13 +12,13 @@ FlowerData::FlowerData(String sensor_name, int sensor_data) {
     this->_sensor_name = sensor_name;
     this->_raw_value = sensor_data;
 
-    if (sensor_data >= MAX_WET) {
-        float calc_sensor = (100.0f / (float)(MAX_DRY - MAX_WET)) * (float)(MAX_DRY - sensor_data);
+    if (sensor_data >= MAX_WET_V2) {
+        float calc_sensor = (100.0f / (float)(MAX_DRY - MAX_WET_V2)) * (float)(MAX_DRY - sensor_data);
         this->_sensor_value = String(calc_sensor);
     }
     else this->_sensor_value = "0";
 
-    Serial.println("Sensor: " + this->_sensor_name + " - " + this->_sensor_value);
+    Serial.println("Sensor: " + this->_sensor_name + " - " + this->_sensor_value + " - RAW: " + this->_raw_value);
 }
 
 
@@ -27,9 +27,7 @@ String FlowerData::ToJson() {
         {
             "sensor_id": "@sensor_id",
             "sensor_value": @sensor_value,
-            "raw_value": @raw_value,
-            "date_time": null,
-            "date_date": null
+            "raw_value": @raw_value
         }
     )===";
 
