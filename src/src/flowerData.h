@@ -1,13 +1,13 @@
 #include <Arduino.h>
 #include <HTTPClient.h>
 #include "env.h"
-#include "math.h"
 
 
 #ifndef FLOWERDATA
 #define FLOWERDATA
-#define MAX_DRY 4095
-#define MAX_WET 2330
+#define MAX_DRY 3700
+#define MAX_WET 1700
+#define MAX_WET_V2 1300
 
 namespace FLC {
 
@@ -15,6 +15,7 @@ namespace FLC {
         private:
             String _sensor_name;
             String _sensor_value;
+            int _raw_value;
 
         public:
             FlowerData();
