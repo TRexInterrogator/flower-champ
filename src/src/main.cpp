@@ -16,7 +16,8 @@ using namespace ENV;
 #define TEMP_SENSOR 12
 
 
-#define READ_INTERVAL 60000
+//#define READ_INTERVAL 60000
+#define READ_INTERVAL 5000
 #define SENSOR_01_NAME "bedroom-ficus"
 #define SENSOR_02_NAME "bedroom-palm"
 #define TEMP_SENSOR_NAME "bedroom-temp"

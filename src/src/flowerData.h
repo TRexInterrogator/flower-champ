@@ -5,8 +5,7 @@
 
 #ifndef FLOWERDATA
 #define FLOWERDATA
-#define MAX_DRY 3700
-#define MAX_WET 1700
+#define MAX_DRY 2850
 #define MAX_WET_V2 1300
 
 namespace FLC {

@@ -12,7 +12,7 @@ FlowerData::FlowerData(String sensor_name, int sensor_data) {
     this->_sensor_name = sensor_name;
     this->_raw_value = sensor_data;
 
-    if (sensor_data >= MAX_WET_V2) {
+    if (sensor_data >= MAX_WET_V2 && sensor_data <= MAX_DRY) {
         float calc_sensor = (100.0f / (float)(MAX_DRY - MAX_WET_V2)) * (float)(MAX_DRY - sensor_data);
         this->_sensor_value = String(calc_sensor);
     }
