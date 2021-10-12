@@ -16,20 +16,12 @@ using namespace ENV;
 #define TEMP_SENSOR 12
 
 
-//#define READ_INTERVAL 60000
-#define READ_INTERVAL 5000
-#define SENSOR_01_NAME "bedroom-ficus"
-#define SENSOR_02_NAME "bedroom-palm"
-#define TEMP_SENSOR_NAME "bedroom-temp"
-
-
 int moisture_01 = 0;
 int moisture_02 = 0;
 float temperature = 0.0f;
 
 
 DHT_Unified dht(TEMP_SENSOR, DHT11);
-
 
 
 void setup() {
@@ -70,18 +62,25 @@ void loop() {
     
     if (WiFi.status() == WL_CONNECTED) {
 
-        FLC::FlowerData data_01(SENSOR_01_NAME, moisture_01);
-        FLC::FlowerData data_02(SENSOR_02_NAME, moisture_02);
+        if (ENVars::NAME_PLANT_01 != "") {
+            FLC::FlowerData data_01(ENVars::NAME_PLANT_01, moisture_01);
+            data_01.Post();
+        }
 
-        //data_01.Post();
-        //data_02.Post();
+        if (ENVars::NAME_PLANT_02 != "") {
+            FLC::FlowerData data_02(ENVars::NAME_PLANT_02, moisture_02);
+            data_02.Post();
+        }
 
         if (isnan(event.temperature)) Serial.println(F("Error reading temperature!"));
         else {
-            FLC::TempData temp_data(TEMP_SENSOR_NAME, temperature);
-            //temp_data.Post();
+
+            if (ENVars::NAME_TEMP != "") {
+                FLC::TempData temp_data(ENVars::NAME_TEMP, temperature);
+                temp_data.Post();
+            }   
         }
     }   
 
-    delay(READ_INTERVAL);
+    delay(ENVars::REFRESH_RATE);
 }

@@ -7,3 +7,5 @@
 *.DS_Store
 
 /src/env.cpp
+/src/env-bedroom.txt
+/src/env-living-room.txt

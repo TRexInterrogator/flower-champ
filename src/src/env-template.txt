@@ -1,0 +1,12 @@
+#include "env.h"
+
+
+String ENV::ENVars::WEBHOOK = "http://192.168.178.58:51828";
+char* ENV::ENVars::SSID = "WLAN";
+char* ENV::ENVars::WiFiPwd = "WLAN PASSWD";
+float ENV::ENVars::TEMP_OFFSET = 0.8992f;
+int ENV::ENVars::REFRESH_RATE = 60000;
+
+String ENV::ENVars::NAME_TEMP = "FC-Temp-Bedroom";
+String ENV::ENVars::NAME_PLANT_01 = "FC-Plan01";
+String ENV::ENVars::NAME_PLANT_02 = "FC-Plna02";

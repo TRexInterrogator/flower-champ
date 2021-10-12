@@ -12,7 +12,7 @@ TempData::TempData() { }
 TempData::TempData(String sensor_name, float sensor_data) {
     
     this->_sensor_name = sensor_name;
-    this->_temp_deg = sensor_data * ENVars::TEMP_OFFSET;
+    this->_temp_deg = roundf(sensor_data * ENVars::TEMP_OFFSET);
 
     Serial.println("Sensor: " + this->_sensor_name + " - " + this->_temp_deg + " Celcius");
 }
