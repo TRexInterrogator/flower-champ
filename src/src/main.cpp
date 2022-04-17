@@ -52,7 +52,6 @@ void setup() {
 
 
 void loop() {   
-    
     sensors_event_t event;
     dht.temperature().getEvent(&event);
     
